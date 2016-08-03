@@ -86,7 +86,7 @@ var Searchbar = React.createClass({
                 <div className='col-md-12'>
                     <h1 className="logotxt text-center text-primary">Tieba Dig</h1>
                     <h2 className="site-name text-primary text-center">a simple website for filtering tieba posts</h2>
-                    <h5 className="text-primary text-center"><a href="https://github.com/woxixiulayin/tieba_dig_bae" target="_blank">Github地址:https://github.com/woxixiulayin/tieba_dig_bae</a></h5>
+                    <h5 className="text-primary text-center"><a href="https://github.com/woxixiulayin/tiebadig_node" target="_blank">Github地址:https://github.com/woxixiulayin/tiebadig_node</a></h5>
                 </div>
             </div>
             <div className="row">
