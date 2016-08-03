@@ -77,7 +77,7 @@ var Searchbar = React.createClass({
         var deepth = this.refs.deepth.getDOMNode().value.trim();
         var rep_num = this.refs.rep_num.getDOMNode().value.trim();
         var author = this.refs.author.getDOMNode().value.trim();
-        this.props.onParaSubmit({tieba_name: tieba_name, author: author||'李毅', rep_num: rep_num||1, deepth: deepth||1});
+        this.props.onParaSubmit({tieba_name: tieba_name||'', author: author||'', rep_num: rep_num||1, deepth: deepth||1});
     },  
     render: function() {
         return (
@@ -93,7 +93,7 @@ var Searchbar = React.createClass({
             <div className="navbar-collapse collapse text-center">
                     <form className="navbar-form" role="form" onSubmit={this.handleSubmit}>
                         <div className='form-group'>
-                            <input ref='tieba_name' type="text" placeholder='贴吧名(默认为李毅贴吧)' className='form-control' />
+                            <input ref='tieba_name' type="text" placeholder='贴吧名(比如李毅)' className='form-control' />
                         </div>
                         <div className='form-group'>
                             <input ref='deepth' type="text" placeholder='搜索页数(默认为1)' className='form-control' />

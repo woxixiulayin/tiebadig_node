@@ -22,6 +22,8 @@ function Spider(para) {
 
 Spider.prototype = {
     constructor: Spider,
+
+    //每个url的处理入口
     parseUrl: function parseUrl(url) {
         var _this = this;
 
@@ -39,17 +41,27 @@ Spider.prototype = {
             });
         });
     },
+
+    //制定获取数据的策略
     getPosts: function getPosts(html) {
+        var _this2 = this;
+
         var parse = $.load(html),
             list = parse("#thread_list li.j_thread_list"),
             posts = [];
 
         list.each(function (i, ele) {
             if ($(ele).attr("data-field") == undefined) return;
+            //获取每个post的li数据
             var data_field = JSON.parse($(ele).attr("data-field")),
-                author = data_field.author_name,
                 rep_num = data_field.reply_num,
-                title = $(ele).find("div").first().find("div").last().find("a").text(),
+                author = data_field.author_name;
+
+            //排除不符合条件的数据
+            if (rep_num < _this2.para.rep_num || _this2.para.author != '' && author != _this2.para.author) return;
+
+            //提取具体参数
+            var title = $(ele).find("div").first().find("div").last().find("a").text(),
                 last_time = $(ele).find("span.j_reply_data").text(),
                 url_link = preUrl + $(ele).find("div").first().find("div").last().find("a").attr("href"),
                 body = $(ele).find("div.threadlist_abs_onlyline").text(),
@@ -61,6 +73,7 @@ Spider.prototype = {
         return posts;
     },
 
+    //入口函数
     run: function run() {
         var para = this.para,
             promises = [],

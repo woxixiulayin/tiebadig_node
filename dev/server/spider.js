@@ -14,6 +14,8 @@ function Spider(para) {
 
 Spider.prototype = {
     constructor: Spider,
+
+    //每个url的处理入口
     parseUrl: function (url) {
          return new Promise( (resolve, reject) => {
             superagent.get(url)
@@ -30,6 +32,8 @@ Spider.prototype = {
             });
         });
     },
+
+    //制定获取数据的策略
     getPosts: function (html) {
         let parse = $.load(html),
             list = parse("#thread_list li.j_thread_list"),
@@ -37,13 +41,20 @@ Spider.prototype = {
 
         list.each((i, ele) => {
             if($(ele).attr("data-field") == undefined) return;
+            //获取每个post的li数据
             let data_field = JSON.parse($(ele).attr("data-field")),
-                author = data_field.author_name,
                 rep_num = data_field.reply_num,
-                title = $(ele).find("div").first().find("div").last().find("a").text(),
+                author = data_field.author_name;
+
+            //排除不符合条件的数据
+            if (rep_num < this.para.rep_num || (this.para.author !='' && author != this.para.author)) return;
+
+            //提取具体参数
+            let title = $(ele).find("div").first().find("div").last().find("a").text(),
                 last_time = $(ele).find("span.j_reply_data").text(),
                 url_link = preUrl + $(ele).find("div").first().find("div").last().find("a").attr("href"),
                 body = $(ele).find("div.threadlist_abs_onlyline").text(),
+                
                 post = new Post(title, author, url_link, rep_num, last_time, body);
                 // console.log(post);
                 posts.push(post);
@@ -52,6 +63,7 @@ Spider.prototype = {
         return posts;
     },
 
+    //入口函数
     run: function () {
         let para = this.para,
             promises = [],
