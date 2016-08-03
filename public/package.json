@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "koa-body-parser": "^1.1.2",
-    "koa-router": "^5.4.0"
+    "koa-router": "^5.4.0",
+    "superagent": "^2.1.0"
   }
 }

@@ -1,5 +1,9 @@
 'use strict';
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -11,7 +15,8 @@ var send = require('koa-send'),
     serve = require('koa-static'),
     body = require('koa-body-parser')(),
     app = koa(),
-    router = require('koa-router')();
+    router = require('koa-router')(),
+    Spider = require('./server/spider.js').Spider;
 
 app.use(serve(__dirname + "/src"));
 
@@ -31,14 +36,23 @@ router.get('/', _regenerator2.default.mark(function _callee() {
     }, _callee, this);
 }));
 
-router.post('/search', body, _regenerator2.default.mark(function _callee2() {
+router.post('/search', body, _regenerator2.default.mark(function _callee2(next) {
+    var _this = this;
+
+    var spider;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
             switch (_context2.prev = _context2.next) {
                 case 0:
-                    console.log(this.request.body);
-                    this.status = 200;
-                    this.body = 'some jade output for post requests';
+                    spider = new Spider(this.request.body);
+                    _context2.next = 3;
+                    return spider.run().then(function (posts) {
+                        var data = [];
+                        posts.forEach(function (ele, index) {
+                            data = data.concat(ele);
+                        });
+                        _this.body = (0, _stringify2.default)(data);
+                    });
 
                 case 3:
                 case 'end':

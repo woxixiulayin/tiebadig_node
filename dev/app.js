@@ -3,7 +3,8 @@ var  send = require('koa-send'),
     serve = require('koa-static'),
     body = require('koa-body-parser')(),
     app = koa(),
-    router = require('koa-router')();
+    router = require('koa-router')(),
+    Spider = require('./server/spider.js').Spider;
 
 app.use(serve((__dirname + "/src")));
 
@@ -12,10 +13,15 @@ router.get('/', function *() {
 });
 
 
-router.post('/search', body, function *() {
-    console.log(this.request.body);
-    this.status = 200;
-    this.body = 'some jade output for post requests';
+router.post('/search', body, function *(next) {
+    let spider = new Spider(this.request.body);
+    yield spider.run().then((posts) => {
+        let data = [];
+        posts.forEach((ele, index) => {
+            data = data.concat(ele);
+        });
+        this.body = JSON.stringify(data);
+    });
 });
 
 

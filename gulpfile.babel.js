@@ -18,12 +18,12 @@ gulp.task('js', () => {
 });
 
 gulp.task('server', () => {
-    gulp.src('dev/server/**')
+    gulp.src('dev/server/*.js')
         .pipe(babel({
             //支持generators
             plugins: ['transform-runtime']
         }))
-        .pipe(gulp.dest('public/server'));
+        .pipe(gulp.dest('public/server/'));
 });
 
 gulp.task('appjs', () => {
