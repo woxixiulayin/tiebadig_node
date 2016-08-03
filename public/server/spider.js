@@ -61,9 +61,9 @@ Spider.prototype = {
             if (rep_num < _this2.para.rep_num || _this2.para.author != '' && author != _this2.para.author) return;
 
             //提取具体参数
-            var title = $(ele).find("div").first().find("div").last().find("a").text(),
+            var title = $(ele).find("div.threadlist_title a").text(),
                 last_time = $(ele).find("span.j_reply_data").text(),
-                url_link = preUrl + $(ele).find("div").first().find("div").last().find("a").attr("href"),
+                url_link = preUrl + "/p/" + data_field.id,
                 body = $(ele).find("div.threadlist_abs_onlyline").text(),
                 post = new Post(title, author, url_link, rep_num, last_time, body);
             // console.log(post);
