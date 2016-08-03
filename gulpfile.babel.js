@@ -39,7 +39,7 @@ gulp.task('watch', () => {
     browserSync.init({
 
         //设置代理
-            proxy: 'localhost:8080'
+            proxy: 'localhost:8081'
     });
 
     //监视后端文件改动并babel
